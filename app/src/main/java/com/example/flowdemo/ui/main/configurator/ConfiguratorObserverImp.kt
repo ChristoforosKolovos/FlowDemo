@@ -16,7 +16,7 @@ class ConfiguratorObserverImp : ConfiguratorObserver {
             while (true) {
                 flag = !flag
                 emit(flag)
-                delay(10000)
+                delay(5000)
             }
         }
     }

@@ -15,7 +15,7 @@ class DanaeSportsDataSourceImp : SportsDataSource {
             while (true) {
                 counter++
                 emit(counter)
-                delay(2000)
+                delay(1000)
             }
         }
     }

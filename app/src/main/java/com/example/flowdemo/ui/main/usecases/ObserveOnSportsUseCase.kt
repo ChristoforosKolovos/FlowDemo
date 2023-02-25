@@ -22,7 +22,7 @@ class ObserveOnSportsUseCase(
         observeOnConfigurator(scope)
     }
 
-    fun unsubscribe(){
+    fun unsubscribe() {
         sportsJob.cancel()
         configuratorJob.cancel()
     }
@@ -30,7 +30,7 @@ class ObserveOnSportsUseCase(
     private fun observeOnConfigurator(scope: CoroutineScope) {
         configuratorJob = scope.launch {
             configuratorObserver.observe().collect { config ->
-                println("DBG: USECASE COLLECTED CONFIG = $config")
+                println("DBG: USECASE COLLECTED NEW CONFIG = ${if (config) "LEGACY" else "DANAE"}")
                 sportsJob.cancel()
                 observeOnSports(scope, config)
             }
@@ -40,7 +40,7 @@ class ObserveOnSportsUseCase(
     private suspend fun observeOnSports(scope: CoroutineScope, legacy: Boolean) {
         sportsJob = scope.launch {
             sportsRepository.getSports(legacy).collect { sports ->
-                println("DBG: USECASE COLLECTED SPORTS [legacy = $legacy] = $sports")
+                println("DBG: USECASE COLLECTED NEW SPORTS (${if (legacy) "LEGACY" else "DANAE"}) = $sports")
                 _sportsFlow.value = sports
             }
         }
